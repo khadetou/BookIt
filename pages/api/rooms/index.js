@@ -8,4 +8,5 @@ connectDB()
 
 handler.get(allRooms)
 handler.post(newRoom)
+
 export default handler

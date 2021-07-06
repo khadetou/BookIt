@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const roomSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema({
     trim: true,
     maLength: [100, 'Room name cannot exceed 100 characters'],
   },
-  price: {
+  pricePerNight: {
     type: Number,
     required: [true, 'Price  is required'],
     defaultValue: 0.0,
@@ -77,10 +77,10 @@ const roomSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, 'Category is required'],
-  },
-  enum: {
-    values: ['King', 'Single', 'Twins'],
-    message: 'Select a category of your room',
+    enum: {
+      values: ['King', 'Single', 'Twins'],
+      message: 'Select a category of your room',
+    },
   },
 
   reviews: [
@@ -110,4 +110,4 @@ const roomSchema = new mongoose.Schema({
   },
 })
 
-export default mongoose.model.Room || mongoose.model('Room', roomSchema)
+module.exports = mongoose.models.Room || mongoose.model('Room', roomSchema)
