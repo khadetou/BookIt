@@ -1,8 +1,11 @@
 import nc from 'next-connect'
-import { allRooms } from '../../../controllers/roomController'
+import connectDB from '../../../config/dbConnect'
+import { allRooms, newRoom } from '../../../controllers/roomController'
 
 const handler = nc()
 
-handler.get(allRooms)
+connectDB()
 
+handler.get(allRooms)
+handler.post(newRoom)
 export default handler
