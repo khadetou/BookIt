@@ -5,8 +5,9 @@ import {
   updateRoom,
   deleteRoom,
 } from '../../../controllers/roomController'
+import onError from '../../../middlewares/errors'
 
-const handler = nc()
+const handler = nc({ onError })
 
 connectDB()
 
