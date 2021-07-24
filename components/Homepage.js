@@ -1,7 +1,14 @@
 import Cart from "./subcomponents/Cart";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+
 const Homepage = () => {
-  const { rooms } = useSelector((state) => state.allRooms);
+  const { rooms, error } = useSelector((state) => state.allRooms);
+
+  useEffect(() => {
+    toast.error(error);
+  });
 
   return (
     <section id="rooms" className="container mt-5">
