@@ -2,7 +2,7 @@ import { GET_ALL_ROOMS, ROOMS_ERROR, GET_ROOM_DETAILS } from "../types/type";
 
 const initialState = {
   rooms: [],
-  room: {},
+  room: null,
   loading: true,
   error: null,
 };
@@ -41,7 +41,7 @@ export const roomDetails = (state = initialState, action) => {
     case GET_ROOM_DETAILS:
       return {
         ...state,
-        room: payload.rooms,
+        room: payload,
         loading: false,
       };
     case ROOMS_ERROR: {

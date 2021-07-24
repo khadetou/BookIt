@@ -27,7 +27,7 @@ export const getRoomDetails = (req, id) => async (dispatch) => {
 
     dispatch({
       type: GET_ROOM_DETAILS,
-      payload: data,
+      payload: data.room,
     });
   } catch (error) {
     dispatch({
