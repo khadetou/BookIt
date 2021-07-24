@@ -1,4 +1,6 @@
 import Homepage from "../components/Homepage";
+import { getAllRooms } from "../redux/actions/rooms";
+import { wrapper } from "../redux/store";
 export default function Home() {
   return (
     <>
@@ -6,3 +8,10 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req }) => {
+      await store.dispatch(getAllRooms(req));
+    }
+);

@@ -1,10 +1,10 @@
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
     MONGO_URI:
       "mongodb+srv://khadetou:KhadetouDyaniyamba96.@hotcodes.pflqn.mongodb.net/bookit?retryWrites=true&w=majority",
   },
   images: {
-    domains: ["a0.muscache.com"],
+    domains: ["res.cloudinary.com"],
   },
 };
