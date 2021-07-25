@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 export default function Search() {
   const [location, setLocation] = useState("");
+  const [guest, setGuest] = useState("");
+  const [category, setCategory] = useState("");
   const router = useRouter();
 
   const sumbitHandler = (e) => {
     e.preventDefault();
     if (location.trim()) {
-      router.push(`/?location=${location}`);
+      router.push(`/?location=${location}&guest=${guest}&category=${category}`);
     } else {
       router.push("/");
     }
@@ -30,25 +32,37 @@ export default function Search() {
               />
             </div>
 
-            {/* <div className="form-group">
+            <div className="form-group">
               <label htmlFor="guest_field">No. of Guests</label>
-              <select className="form-control" id="guest_field" value="">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <select
+                className="form-control"
+                id="guest_field"
+                value={guest}
+                onChange={(e) => setGuest(e.target.value)}
+              >
+                {[...Array(6).keys()].map((num, idx) => (
+                  <option key={idx} value={num + 1}>
+                    {num + 1}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="form-group">
               <label htmlFor="room_type_field">Room Type</label>
-              <select className="form-control" id="room_type_field" value="">
-                <option>King</option>
-                <option>Single</option>
-                <option>Twins</option>
+              <select
+                className="form-control"
+                id="room_type_field"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                {["King", "Single", "Twins"].map((category, idx) => (
+                  <option key={idx} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
-            </div> */}
+            </div>
 
             <button type="submit" className="btn btn-block py-2">
               Search

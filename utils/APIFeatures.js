@@ -1,7 +1,7 @@
 class APIFeatures {
   constructor(query, queryStr) {
-    this.query = query
-    this.queryStr = queryStr
+    this.query = query;
+    this.queryStr = queryStr;
   }
 
   search() {
@@ -9,34 +9,34 @@ class APIFeatures {
       ? {
           address: {
             $regex: this.queryStr.location,
-            $options: 'i',
+            $options: "i",
           },
         }
-      : {}
-    console.log(location)
-    this.query = this.query.find({ ...location })
-    return this
+      : {};
+
+    this.query = this.query.find({ ...location });
+    return this;
   }
 
   filter() {
-    const queryCopy = { ...this.queryStr }
+    const queryCopy = { ...this.queryStr };
 
     //Remove fields from query
-    const removeFields = ['location', 'page']
-    removeFields.forEach((field) => delete queryCopy[field])
+    const removeFields = ["location", "page"];
+    removeFields.forEach((field) => delete queryCopy[field]);
 
-    this.query = this.query.find(queryCopy)
+    this.query = this.query.find(queryCopy);
 
-    return this
+    return this;
   }
 
   pagination(resPerPage) {
-    const currentPage = Number(this.queryStr.page) || 1
-    const skip = resPerPage * (currentPage - 1)
+    const currentPage = Number(this.queryStr.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
 
-    this.query = this.query.limit(resPerPage).skip(skip)
-    return this
+    this.query = this.query.limit(resPerPage).skip(skip);
+    return this;
   }
 }
 
-export default APIFeatures
+export default APIFeatures;
