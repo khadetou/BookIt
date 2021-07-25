@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Cart from "./subcomponents/Cart";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -10,9 +11,13 @@ const Homepage = () => {
     useSelector((state) => state.allRooms);
   const router = useRouter();
 
-  let { page = 1 } = router.query;
+  let { page = 1, location } = router.query;
   page = Number(page);
 
+  let count = roomsCount;
+  if (count) {
+    count = filteredRoomsCount;
+  }
   useEffect(() => {
     toast.error(error);
   });
@@ -24,11 +29,15 @@ const Homepage = () => {
   return (
     <>
       <section id="rooms" className="container mt-5">
-        <h2 className="mb-3 ml-2 stays-heading">Stays in New York</h2>
+        <h2 className="mb-3 ml-2 stays-heading">
+          {location ? `Rooms ${location}` : "All rooms "}
+        </h2>
 
-        <a href="#" className="ml-2 back-to-search">
-          <i className="fa fa-arrow-left"></i> Back to Search
-        </a>
+        <Link href="/search">
+          <a className="ml-2 back-to-search">
+            <i className="fa fa-arrow-left"></i> Back to Search
+          </a>
+        </Link>
         <div className="row">
           {rooms && rooms.length === 0 ? (
             <div className="alert alert-danger mt-5 ml-3 container text-center">

@@ -27,7 +27,7 @@ export default function RoomDetails() {
   return (
     <div className="container container-fluid">
       <h2 className="mt-5">{name}</h2>
-
+      <p>{address}</p>
       <div className="ratings mt-auto mb-3">
         <div className="rating-outer">
           <div
