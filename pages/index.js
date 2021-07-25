@@ -11,7 +11,7 @@ export default function Home() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
-    async ({ req }) => {
-      await store.dispatch(getAllRooms(req));
+    async ({ req, query }) => {
+      await store.dispatch(getAllRooms(req, query.page));
     }
 );
