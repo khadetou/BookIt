@@ -4,7 +4,7 @@ import asyncHandler from "../middlewares/asyncHandler";
 import cloudinary from "cloudinary";
 
 //Setting up cloudinary config
-cloudinary.confi({
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINAR_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
