@@ -1,11 +1,25 @@
 import User from "../models/user";
 import bcryptjs from "bcryptjs";
 import asyncHandler from "../middlewares/asyncHandler";
+import cloudinary from "cloudinary";
+
+//Setting up cloudinary config
+cloudinary.confi({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINAR_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //@desc register user
 //@route post/api/auth/register
 
 export const registerUser = asyncHandler(async (req, res) => {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "bookit/avatars",
+    width: "150",
+    crop: "scale",
+  });
+
   let { name, email, password } = req.body;
 
   //Encrypt Password
@@ -17,8 +31,8 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     avatar: {
-      public_id: "PUBLIC_ID",
-      url: "URL",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 
