@@ -14,7 +14,7 @@ export default NextAuth({
       async authorize(credentials) {
         connectDB();
         const { email, password } = credentials;
-
+        console.log(credentials);
         //Check if email and password entered
         if (!email || !password) {
           throw new Error("Please enter email or password");
@@ -22,7 +22,7 @@ export default NextAuth({
 
         //Find user in database
         const user = await User.findOne({ email }).select("+password");
-
+        console.log(user);
         if (!user) {
           throw new Error("Invalid Email or Password");
         }
