@@ -41,3 +41,15 @@ export const registerUser = asyncHandler(async (req, res) => {
     message: "Account registered successfully",
   });
 });
+
+//@desc get user
+//@route get/api/me
+
+export const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
