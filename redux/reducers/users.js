@@ -1,6 +1,8 @@
 import {
   REGISTER_USER_SUCESS,
   REGISTER_USER_FAIL,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAIL,
   SET_LOADING,
 } from "../types/type";
 
@@ -9,6 +11,7 @@ const initialState = {
   success: null,
   loading: null,
   error: null,
+  isAuthenticated: false,
 };
 
 export const auth = (state = initialState, action) => {
@@ -18,9 +21,18 @@ export const auth = (state = initialState, action) => {
       return {
         ...state,
         success: true,
-        user: payload,
         loading: false,
       };
+
+    case LOAD_USER_SUCCESS: {
+      return {
+        ...state,
+        user: payload,
+        isAuthenticated: true,
+      };
+    }
+
+    case LOAD_USER_FAIL:
     case REGISTER_USER_FAIL: {
       return {
         ...state,
