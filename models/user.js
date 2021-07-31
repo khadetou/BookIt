@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import validator from "validator";
-import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -41,22 +40,5 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpired: Date,
   },
 });
-
-//Genertate password reset token
-userSchema.methods.getResetPasswordToken = function () {
-  //Generate token
-  const resetToken = crypto.randomBytes(20).toString("hex");
-
-  //Hash and set to reset password field
-  this.resetPasswordToken = crypto
-    .createHash("sha258")
-    .update(resetToken)
-    .digest("hex");
-
-  //Set token expire time
-  this.resetPasswordExpired = Date.now() + 30 * 60 * 1000;
-
-  return resetToken;
-};
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

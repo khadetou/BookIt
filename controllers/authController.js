@@ -2,6 +2,11 @@ import User from "../models/user";
 import bcryptjs from "bcryptjs";
 import asyncHandler from "../middlewares/asyncHandler";
 import cloudinary from "cloudinary";
+import crypto from "crypto";
+import absoluteUrl from "next-absolute-url";
+import sendEmail from "../utils/sendEmail";
+import ErrorHandler from "../utils/errorHandler";
+import sendEmail from "../utils/sendEmail";
 
 //Setting up cloudinary config
 cloudinary.config({
@@ -92,4 +97,59 @@ export const updateProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
   });
+});
+
+//@desc Forgot password
+//@route put/api/password/forgot
+
+export const forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHandler("User not found with this email", 404));
+  }
+
+  //Get resetToken
+  //Generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  //Hash and set to reset password field
+  user.resetPasswordToken = crypto
+    .createHash("sha258")
+    .update(resetToken)
+    .digest("hex");
+
+  //Set token expire time
+  user.resetPasswordExpired = Date.now() + 30 * 60 * 1000;
+  res.status(200).json({
+    success: true,
+  });
+
+  await user.save({ validateBeforeSave: false });
+
+  //Get origin
+  const { origin } = absoluteUrl(req);
+  //Create a reset password url
+  const resetUrl = `${origin}/password/reset/${resetToken}`;
+
+  const message = `Your password reset url is as follow: \n\n${resetUrl} \n\n If you have not requested this email then ignore it.`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Bookit Password Reset",
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Email sent to ${user.email}`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpired = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorHandler(error.message, 500));
+  }
 });
