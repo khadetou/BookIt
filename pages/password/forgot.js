@@ -17,7 +17,7 @@ export default function ForgotPassword() {
     if (error) {
       toast.error(error);
     }
-  }, [message, error, loading]);
+  }, [message, error]);
 
   const submitHandler = (e) => {
     e.preventDefault();

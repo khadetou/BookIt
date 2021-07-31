@@ -32,13 +32,13 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: "user",
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
-    resetPasswordToken: String,
-    resetPasswordExpired: Date,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  resetPasswordToken: String,
+  resetPasswordExpired: Date,
 });
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

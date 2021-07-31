@@ -10,6 +10,8 @@ import {
   UPDATE_PROFILE_FAIL,
   FORGOT_PASS_SUCCESS,
   FORGOT_PASS_FAIL,
+  RESET_PASS_SUCCESS,
+  RESET_PASS_FAIL,
 } from "../types/type";
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -92,6 +94,34 @@ export const forgotPassword = (email) => async (dispatch) => {
     console.log({ error });
     dispatch({
       type: FORGOT_PASS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Reset password
+export const resetPassword = (token, password) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    dispatch({ type: SET_LOADING });
+    const { data } = await axios.put(
+      `/api/password/reset/${token}`,
+      password,
+      config
+    );
+
+    dispatch({
+      type: RESET_PASS_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    console.log({ error });
+    dispatch({
+      type: RESET_PASS_FAIL,
       payload: error.response.data.message,
     });
   }

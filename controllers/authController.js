@@ -164,6 +164,8 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
     resetPasswordExpired: { $gt: Date.now() },
   });
 
+  let { password, confirmPassword } = req.body;
+
   if (!user) {
     return next(
       new ErrorHandler(
@@ -173,12 +175,15 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (req.body.password !== req.body.confirmPassword) {
+  if (password !== confirmPassword) {
     return next(new ErrorHandler("Password doesn't match", 400));
   }
 
   //Set up the new password
-  user.password = req.body.password;
+  const salt = await bcryptjs.genSalt(10);
+  password = await bcryptjs.hash(password, salt);
+
+  user.password = password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpired = undefined;
 

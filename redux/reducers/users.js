@@ -9,6 +9,8 @@ import {
   UPDATE_PROFILE_FAIL,
   FORGOT_PASS_SUCCESS,
   FORGOT_PASS_FAIL,
+  RESET_PASS_SUCCESS,
+  RESET_PASS_FAIL,
 } from "../types/type";
 
 const initialState = {
@@ -60,6 +62,14 @@ export const auth = (state = initialState, action) => {
         loading: false,
       };
 
+    case RESET_PASS_SUCCESS:
+      return {
+        ...state,
+        success: payload,
+        loading: false,
+      };
+
+    case RESET_PASS_FAIL:
     case FORGOT_PASS_FAIL:
     case UPDATE_PROFILE_FAIL:
     case LOAD_USER_FAIL:
