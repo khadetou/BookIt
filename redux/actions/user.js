@@ -6,6 +6,8 @@ import {
   SET_LOADING,
   LOAD_USER_FAIL,
   LOAD_USER_SUCCESS,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from "../types/type";
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -41,6 +43,29 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOAD_USER_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
+//Update profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    dispatch({ type: SET_LOADING });
+    const { data } = await axios.put("/api/me/update", userData, config);
+
+    dispatch({
+      type: UPDATE_PROFILE_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
       payload: error.message,
     });
   }

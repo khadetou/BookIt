@@ -4,6 +4,9 @@ import {
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
   SET_LOADING,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_RESET,
+  UPDATE_PROFILE_FAIL,
 } from "../types/type";
 
 const initialState = {
@@ -12,6 +15,7 @@ const initialState = {
   loading: null,
   error: null,
   isAuthenticated: false,
+  isUpdated: false,
 };
 
 export const auth = (state = initialState, action) => {
@@ -32,6 +36,21 @@ export const auth = (state = initialState, action) => {
       };
     }
 
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isUpdated: payload,
+        loading: false,
+      };
+
+    case UPDATE_PROFILE_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+        loading: false,
+      };
+
+    case UPDATE_PROFILE_FAIL:
     case LOAD_USER_FAIL:
     case REGISTER_USER_FAIL: {
       return {
