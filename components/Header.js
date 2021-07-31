@@ -58,7 +58,7 @@ const Header = () => {
                 <Link href="/bookings/me">
                   <a className="dropdown-item">My Bookings</a>
                 </Link>
-                <Link href="/me/Update">
+                <Link href="/me/update">
                   <a className="dropdown-item">Profile</a>
                 </Link>
                 <Link href="/">

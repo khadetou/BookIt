@@ -3,7 +3,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/client";
 import { toast } from "react-toastify";
 import ButtonLoader from "../components/ButtonLoader";
-
+import { getSession } from "next-auth/client";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -78,3 +78,20 @@ const Login = () => {
 };
 
 export default Login;
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
