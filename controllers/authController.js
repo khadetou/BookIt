@@ -55,7 +55,7 @@ export const getUser = asyncHandler(async (req, res) => {
 });
 
 //@desc Update user profile
-//@route get/api/me/update
+//@route put/api/me
 
 export const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);

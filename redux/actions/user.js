@@ -57,7 +57,7 @@ export const updateProfile = (userData) => async (dispatch) => {
       },
     };
     dispatch({ type: SET_LOADING });
-    const { data } = await axios.put("/api/me/update", userData, config);
+    const { data } = await axios.put("/api/me", userData, config);
 
     dispatch({
       type: UPDATE_PROFILE_SUCCESS,

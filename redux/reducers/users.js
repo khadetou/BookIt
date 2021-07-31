@@ -32,6 +32,7 @@ export const auth = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+        loading: false,
         isAuthenticated: true,
       };
     }

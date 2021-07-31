@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../redux/actions/user";
 import ButtonLoader from "../components/ButtonLoader";
-export default function register() {
+export default function Register() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
