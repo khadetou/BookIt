@@ -6,7 +6,6 @@ import crypto from "crypto";
 import absoluteUrl from "next-absolute-url";
 import sendEmail from "../utils/sendEmail";
 import ErrorHandler from "../utils/errorHandler";
-import sendEmail from "../utils/sendEmail";
 
 //Setting up cloudinary config
 cloudinary.config({
@@ -115,15 +114,12 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 
   //Hash and set to reset password field
   user.resetPasswordToken = crypto
-    .createHash("sha258")
+    .createHash("sha256")
     .update(resetToken)
     .digest("hex");
 
   //Set token expire time
   user.resetPasswordExpired = Date.now() + 30 * 60 * 1000;
-  res.status(200).json({
-    success: true,
-  });
 
   await user.save({ validateBeforeSave: false });
 

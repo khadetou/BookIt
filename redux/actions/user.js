@@ -8,6 +8,8 @@ import {
   LOAD_USER_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  FORGOT_PASS_SUCCESS,
+  FORGOT_PASS_FAIL,
 } from "../types/type";
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -26,7 +28,7 @@ export const registerUser = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };
@@ -43,7 +45,7 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOAD_USER_FAIL,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };
@@ -66,7 +68,31 @@ export const updateProfile = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
-      payload: error.message,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Password forgotten
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    dispatch({ type: SET_LOADING });
+    const { data } = await axios.post("/api/password/forgot", email, config);
+
+    dispatch({
+      type: FORGOT_PASS_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    console.log({ error });
+    dispatch({
+      type: FORGOT_PASS_FAIL,
+      payload: error.response.data.message,
     });
   }
 };

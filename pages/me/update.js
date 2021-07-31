@@ -24,13 +24,12 @@ export default function UpdateProfile() {
   } = useSelector((state) => state.auth);
 
   const [user, setUser] = useState({
-    name: "hello",
-    email: "hello",
+    name: "",
+    email: "",
     password: "",
   });
 
   const { name, email, password } = user;
-  console.log(name, email);
 
   useEffect(() => {
     //For the setUser if we put it in the if statement will get an error in the console
