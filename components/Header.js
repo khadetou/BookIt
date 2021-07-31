@@ -7,9 +7,11 @@ import { signOut } from "next-auth/client";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { user, loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    //Check if the user is set in order to dispatch it
+    //otherwise we'll get some odd behavior
     if (!user) {
       dispatch(loadUser());
     }
