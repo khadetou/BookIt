@@ -1,36 +1,36 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: false,
   },
   name: {
     type: String,
-    required: [true, 'Room name is required'],
+    required: [true, "Room name is required"],
     trim: true,
-    maLength: [100, 'Room name cannot exceed 100 characters'],
+    maLength: [100, "Room name cannot exceed 100 characters"],
   },
   pricePerNight: {
     type: Number,
-    required: [true, 'Price  is required'],
+    required: [true, "Price  is required"],
     defaultValue: 0.0,
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
+    required: [true, "Description is required"],
   },
   address: {
     type: String,
-    required: [true, 'Address is required'],
+    required: [true, "Address is required"],
   },
   guestCapacity: {
     type: Number,
-    required: [true, 'GuestCapacity is required'],
+    required: [true, "GuestCapacity is required"],
   },
   numOfBeds: {
     type: Number,
-    required: [true, 'The number of bed is required'],
+    required: [true, "The number of bed is required"],
   },
   internet: {
     type: Boolean,
@@ -76,10 +76,10 @@ const roomSchema = new mongoose.Schema({
   ],
   category: {
     type: String,
-    required: [true, 'Category is required'],
+    required: [true, "Category is required"],
     enum: {
-      values: ['King', 'Single', 'Twins'],
-      message: 'Select a category of your room',
+      values: ["King", "Single", "Twins"],
+      message: "Select a category of your room",
     },
   },
 
@@ -87,7 +87,7 @@ const roomSchema = new mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        ref: "User",
         required: true,
       },
       name: {
@@ -108,6 +108,6 @@ const roomSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-})
+});
 
-module.exports = mongoose.models.Room || mongoose.model('Room', roomSchema)
+module.exports = mongoose.models.Room || mongoose.model("Room", roomSchema);
