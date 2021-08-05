@@ -1,7 +1,6 @@
 import Booking from "../models/booking";
 import ErrorHandler from "../utils/errorHandler";
 import asyncHandler from "../middlewares/asyncHandler";
-import APIFeatures from "../utils/APIFeatures";
 
 //@desc create new booking
 //@route Pos/api/bookings
@@ -30,5 +29,44 @@ export const creteBooking = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     booking,
+  });
+});
+//@desc check room booking availability
+//@route get/api/bookings/check
+
+export const checkBookingRoomAvailability = asyncHandler(async (req, res) => {
+  let { roomId, checkInDate, checkOutDate } = req.query;
+
+  checkInDate = new Date(checkInDate);
+  checkOutDate = new Date(checkOutDate);
+
+  const bookings = await Booking.find({
+    room: roomId,
+    $and: [
+      {
+        checkInDate: {
+          $lte: checkOutDate, //$lte less than
+        },
+      },
+      {
+        checkOutDate: {
+          $gte: checkInDate, //$gte greater than
+        },
+      },
+    ],
+    //Both checkInDate and checkoutDate has to return true that's what we $and for
+  });
+
+  //Check if there is any booking available
+  let isAvailable;
+  if (bookings && bookings.length === 0) {
+    isAvailable = true;
+  } else {
+    isAvailable = false;
+  }
+
+  res.status(200).json({
+    success: true,
+    isAvailable,
   });
 });
