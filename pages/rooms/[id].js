@@ -1,15 +1,18 @@
 import { getRoomDetails } from "../../redux/actions/rooms";
 import { useState } from "react";
 import { wrapper } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Carousel } from "react-bootstrap";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { checkBooking } from "../../redux/actions/booking";
+import { CHECK_BOOKING_RESET } from "../../redux/types/type";
 
 export default function RoomDetails() {
+  const dispatch = useDispatch();
   const {
     room: {
       address,
@@ -29,10 +32,15 @@ export default function RoomDetails() {
     },
   } = useSelector((state) => state.room);
 
+  const { loading, available, error } = useSelector((state) => state.booking);
+  const { user } = useSelector((state) => state.auth);
+
   const [checkInDate, setCheckInDate] = useState();
   const [checkOutDate, setCheckOutDate] = useState();
   const [daysOfStay, setDaysOfStay] = useState();
   const router = useRouter();
+
+  const { id } = router.query;
 
   const onChange = (dates) => {
     const [checkInDate, checkOutDate] = dates;
@@ -47,6 +55,10 @@ export default function RoomDetails() {
         (new Date(checkOutDate) - new Date(checkInDate)) / 86400000 + 1
       );
       setDaysOfStay(days);
+
+      dispatch(
+        checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
+      );
     }
   };
 
@@ -72,8 +84,6 @@ export default function RoomDetails() {
       };
 
       const { data } = await axios.post("/api/bookings", bookingData, config);
-
-      console.log(data);
     } catch (error) {
       console.log(error.response);
     }
@@ -203,16 +213,35 @@ export default function RoomDetails() {
               onChange={onChange}
               startDate={checkInDate}
               endDate={checkOutDate}
+              minDate={new Date()}
               selectsRange
               inline
             />
 
-            <button
-              className="btn btn-block py-3 booking-btn"
-              onClick={newBookingHandler}
-            >
-              Pay
-            </button>
+            {available === true && (
+              <div className="alert alert-success my-3 font-weight-bold">
+                Room is available. Book now
+              </div>
+            )}
+            {available === false && (
+              <div className="alert alert-danger my-3 font-weight-bold">
+                Room is not available. Try different dates
+              </div>
+            )}
+            {available && !user && (
+              <div className="alert alert-danger my-3 font-weight-bold">
+                Log in To book a room.
+              </div>
+            )}
+
+            {available && user && (
+              <button
+                className="btn btn-block py-3 booking-btn"
+                onClick={newBookingHandler}
+              >
+                Pay
+              </button>
+            )}
           </div>
         </div>
       </div>

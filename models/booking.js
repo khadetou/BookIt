@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+// import timeZone from "mongoose-timezone"; if we do not get the right dates
 
 const bookingSchema = new mongoose.Schema({
   room: {
@@ -10,6 +11,10 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
+  },
+  checkInDate: {
+    type: Date,
+    required: true,
   },
   checkOutDate: {
     type: Date,
@@ -42,6 +47,8 @@ const bookingSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+// bookingSchema.plugin(timeZone); if we do not get the right dates
 
 export default mongoose.models.Booking ||
   mongoose.model("Booking", bookingSchema);

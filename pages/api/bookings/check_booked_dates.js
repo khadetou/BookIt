@@ -1,6 +1,6 @@
 import nc from "next-connect";
 import connectDB from "../../../config/dbConnect";
-import { checkBookingRoomAvailability } from "../../../controllers/bookingController";
+import { checkBookedDates } from "../../../controllers/bookingController";
 
 import onError from "../../../middlewares/errors";
 
@@ -8,6 +8,6 @@ const handler = nc({ onError });
 
 connectDB();
 
-handler.get(checkBookingRoomAvailability);
+handler.get(checkBookedDates);
 
 export default handler;
