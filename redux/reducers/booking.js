@@ -2,13 +2,15 @@ import {
   CHECK_BOOKING_FAIL,
   CHECK_BOOKING_RESET,
   CHECK_BOOKING_SUCCESS,
-  FORGOT_PASS_SUCCESS,
+  BOOKED_DATES_FAIL,
+  BOOKED_DATES_SUCCESS,
 } from "../types/type";
 
 const initialState = {
   available: null,
   loading: true,
   error: null,
+  dates: null,
 };
 
 export const booking = (state = initialState, action) => {
@@ -20,6 +22,16 @@ export const booking = (state = initialState, action) => {
         available: payload,
         loading: false,
       };
+
+    case BOOKED_DATES_SUCCESS: {
+      return {
+        ...state,
+        dates: payload,
+        loading: false,
+      };
+    }
+
+    case BOOKED_DATES_FAIL:
     case CHECK_BOOKING_FAIL: {
       return {
         ...state,
