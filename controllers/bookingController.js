@@ -104,7 +104,15 @@ export const checkBookedDates = asyncHandler(async (req, res) => {
 //@route get/api/bookings/me
 
 export const myBookings = asyncHandler(async (req, res) => {
-  const bookings = await Booking.find({ user: req.user._id });
+  const bookings = await Booking.find({ user: req.user._id })
+    .populate({
+      path: "room",
+      select: "name pricePerNight images",
+    })
+    .populate({
+      path: "user",
+      select: "name email",
+    });
 
   res.status(200).json({
     success: true,

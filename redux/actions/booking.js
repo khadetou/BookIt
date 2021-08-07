@@ -52,7 +52,7 @@ export const getBookings = (authCookie, req) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_BOOKINGS_FAIL,
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };
@@ -97,7 +97,7 @@ export const getBookedDates = (roomId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: BOOKED_DATES_FAIL,
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };
