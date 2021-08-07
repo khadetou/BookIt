@@ -111,3 +111,23 @@ export const myBookings = asyncHandler(async (req, res) => {
     bookings,
   });
 });
+
+//@desc get booking details
+//@route get/api/bookings/:id
+
+export const getBookingDetails = asyncHandler(async (req, res) => {
+  const booking = await Booking.findById(req.query.id)
+    .populate({
+      path: "room",
+      select: "name pricePerNight images",
+    })
+    .populate({
+      path: "user",
+      select: "name email",
+    });
+
+  res.status(200).json({
+    success: true,
+    booking,
+  });
+});

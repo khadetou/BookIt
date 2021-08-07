@@ -6,6 +6,8 @@ import {
   SET_LOADING,
   GET_BOOKINGS_FAIL,
   GET_BOOKINGS_SUCCESS,
+  GET_BOOKINGS_DETAILS_FAIL,
+  GET_BOOKINGS_DETAILS_SUCCESS,
 } from "../types/type";
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
@@ -50,7 +52,33 @@ export const getBookings = (authCookie, req) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_BOOKINGS_FAIL,
-      payload: error.response,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get Booking details
+export const getBookingDetails = (authCookie, id, req) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    const { origin } = absoluteUrl(req);
+
+    const config = {
+      headers: {
+        cookie: authCookie,
+      },
+    };
+
+    const { data } = await axios.get(`${origin}/api/bookings/${id}`, config);
+
+    dispatch({
+      type: GET_BOOKINGS_DETAILS_SUCCESS,
+      payload: data.booking,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_BOOKINGS_DETAILS_FAIL,
+      payload: error.response.data.message,
     });
   }
 };
