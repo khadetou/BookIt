@@ -76,7 +76,7 @@ export const checkBookingRoomAvailability = asyncHandler(async (req, res) => {
 });
 
 //@desc check booked dates of a room
-//@route get/api/bookings/check_booked_dates
+//@route get/api/bookings/check_booked_dates?roomId = roomId
 
 export const checkBookedDates = asyncHandler(async (req, res) => {
   const { roomId } = req.query;
@@ -97,5 +97,17 @@ export const checkBookedDates = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     bookedDates,
+  });
+});
+
+//@desc get all bookings of current user
+//@route get/api/bookings/me
+
+export const myBookings = asyncHandler(async (req, res) => {
+  const bookings = await Booking.find({ user: req.user._id });
+
+  res.status(200).json({
+    success: true,
+    bookings,
   });
 });

@@ -4,6 +4,8 @@ import {
   CHECK_BOOKING_SUCCESS,
   BOOKED_DATES_FAIL,
   BOOKED_DATES_SUCCESS,
+  GET_BOOKINGS_SUCCESS,
+  GET_BOOKINGS_FAIL,
 } from "../types/type";
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   loading: true,
   error: null,
   dates: null,
+  bookings: null,
 };
 
 export const booking = (state = initialState, action) => {
@@ -23,6 +26,13 @@ export const booking = (state = initialState, action) => {
         loading: false,
       };
 
+    case GET_BOOKINGS_SUCCESS: {
+      return {
+        ...state,
+        bookings: payload,
+        loading: false,
+      };
+    }
     case BOOKED_DATES_SUCCESS: {
       return {
         ...state,
@@ -31,6 +41,7 @@ export const booking = (state = initialState, action) => {
       };
     }
 
+    case GET_BOOKINGS_FAIL:
     case BOOKED_DATES_FAIL:
     case CHECK_BOOKING_FAIL: {
       return {
