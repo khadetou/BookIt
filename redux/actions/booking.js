@@ -58,7 +58,7 @@ export const getBookings = (authCookie, req) => async (dispatch) => {
 };
 
 // Get Booking details
-export const getBookingDetails = (authCookie, id, req) => async (dispatch) => {
+export const getBookingDetails = (authCookie, req, id) => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
     const { origin } = absoluteUrl(req);
@@ -78,7 +78,7 @@ export const getBookingDetails = (authCookie, id, req) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_BOOKINGS_DETAILS_FAIL,
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };
