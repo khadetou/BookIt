@@ -10,6 +10,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { checkBooking, getBookedDates } from "../../redux/actions/booking";
 import { CHECK_BOOKING_RESET } from "../../redux/types/type";
+import getStripe from "../../utils/getStripe";
+import { toast } from "react-toastify";
+import { stringify } from "flatted";
 
 export default function RoomDetails() {
   const dispatch = useDispatch();
@@ -40,11 +43,15 @@ export default function RoomDetails() {
   const [checkInDate, setCheckInDate] = useState();
   const [checkOutDate, setCheckOutDate] = useState();
   const [daysOfStay, setDaysOfStay] = useState();
+  const [paymentLoading, setPaymentLoading] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     dispatch(getBookedDates(id));
+    return () => {
+      dispatch({ type: CHECK_BOOKING_RESET });
+    };
   }, [dispatch, id]);
 
   const excludedDates = [];
@@ -99,6 +106,27 @@ export default function RoomDetails() {
       const { data } = await axios.post("/api/bookings", bookingData, config);
     } catch (error) {
       console.log(error.response);
+    }
+  };
+
+  const bookRoom = async (id, pricePerNight) => {
+    setPaymentLoading(true);
+    const amount = pricePerNight * daysOfStay;
+    try {
+      const link = `/api/checkout_session/${id}?checkInDate=${checkInDate.toISOString()}&checkoutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`;
+
+      const { data } = await axios.get(link, { params: { amount } });
+      const stripe = await getStripe();
+
+      //Redirect to checkout
+
+      stripe.redirectToCheckout({ sessionId: data.id });
+
+      setPaymentLoading(false);
+    } catch (error) {
+      setPaymentLoading(false);
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -251,9 +279,10 @@ export default function RoomDetails() {
             {available && user && (
               <button
                 className="btn btn-block py-3 booking-btn"
-                onClick={newBookingHandler}
+                onClick={() => bookRoom(id, pricePerNight)}
+                disabled={loading || paymentLoading ? true : false}
               >
-                Pay
+                Pay - ${daysOfStay * pricePerNight}
               </button>
             )}
           </div>

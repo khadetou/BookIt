@@ -17,7 +17,7 @@ export const stripeCheckOut = asyncHandler(async (req, res) => {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `${origin}/bookigs/me`,
+    success_url: `${origin}/bookings/me`,
     cancel_url: `${origin}/room/${room._id}`,
     customer_email: req.user.email,
     client_reference_id: req.query.roomId,
