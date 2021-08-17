@@ -16,6 +16,7 @@ module.exports = {
       "pk_test_51JP61kKdYfcVMwHw2V3wS32oFPZZxINq3Eu2ZPjrWnqB2X0oecvc59sL31wL55kGayGtJfM9SbXC1m544JNCbvY000l2SQetOf",
     STRIPE_SECRET_KEY:
       "sk_test_51JP61kKdYfcVMwHwADAgEIbKKqdzGmju6tkkUqEzZXtO9QT7thcDa516q9qGNzp3zkwqN24yIFWSoSDYpLLKKaCx00F4tXvTR6",
+    STRIPE_WEBHOOK_SECRET: "whsec_o4x6X8hL9uov6Zm3V7BYBreO2Tr0a8KC",
   },
   images: {
     domains: ["res.cloudinary.com"],
