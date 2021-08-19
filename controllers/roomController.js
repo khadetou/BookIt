@@ -99,3 +99,41 @@ export const deleteRoom = asyncHandler(async (req, res) => {
     message: "Room is deleted",
   });
 });
+
+//@desc Create a new review
+//@route Put/api/review
+export const createRoomReview = asyncHandler(async (req, res) => {
+  const { rating, comment, roomId } = req.body;
+  const review = {
+    user: req.user._id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+  };
+
+  const room = await Room.findById(roomId);
+  const isReviewed = room.reviews.find(
+    (r) => r.user.toString() === req.user.id.toString()
+  );
+
+  if (isReviewed) {
+    room.reviews.forEach((review) => {
+      if (review.user.toString() === req.user._id.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
+    });
+  } else {
+    room.reviews.push(review);
+    room.numOfReviews = room.reviews.length;
+  }
+
+  room.ratings =
+    room.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    room.reviews.length;
+  await room.save({ validateBeforeSave: true });
+
+  res.status(200).json({
+    success: true,
+  });
+});
