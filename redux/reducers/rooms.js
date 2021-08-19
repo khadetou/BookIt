@@ -1,10 +1,18 @@
-import { GET_ALL_ROOMS, ROOMS_ERROR, GET_ROOM_DETAILS } from "../types/type";
+import {
+  GET_ALL_ROOMS,
+  ROOMS_ERROR,
+  GET_ROOM_DETAILS,
+  NEW_REVIEW_SUCCESS,
+  NEW_REVIEW_FAIL,
+  NEW_REVIEW_RESET,
+} from "../types/type";
 
 const initialState = {
   rooms: [],
   room: null,
   loading: true,
   error: null,
+  reviews: null,
 };
 
 export const rooms = (state = initialState, action) => {
@@ -19,6 +27,22 @@ export const rooms = (state = initialState, action) => {
         rooms: payload.rooms,
         loading: false,
       };
+
+    case NEW_REVIEW_SUCCESS:
+      return {
+        ...state,
+        review: payload,
+        loading: false,
+      };
+
+    case NEW_REVIEW_RESET:
+      return {
+        ...state,
+        review: false,
+        loading: false,
+      };
+
+    case NEW_REVIEW_FAIL:
     case ROOMS_ERROR: {
       return {
         ...state,

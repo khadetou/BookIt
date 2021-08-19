@@ -1,6 +1,14 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
-import { GET_ALL_ROOMS, GET_ROOM_DETAILS, ROOMS_ERROR } from "../types/type";
+import {
+  GET_ALL_ROOMS,
+  GET_ROOM_DETAILS,
+  ROOMS_ERRORNEW_REVIEW_SUCCESS,
+  NEW_REVIEW_FAIL,
+  NEW_REVIEW_RESET,
+  SET_LOADING,
+  NEW_REVIEW_SUCCESS,
+} from "../types/type";
 
 export const getAllRooms =
   (req, currentpage = 1, location = "", guest, category) =>
@@ -37,6 +45,29 @@ export const getRoomDetails = (req, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ROOMS_ERROR,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Get Room Details
+export const newReview = (reviewData) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    const config = {
+      headers: {
+        "Content-Type": "applicatio/json",
+      },
+    };
+    const { data } = await axios.put("/api/rooms/", reviewData, config);
+
+    dispatch({
+      type: NEW_REVIEW_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_REVIEW_FAIL,
       payload: error.response.data.message,
     });
   }
