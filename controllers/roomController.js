@@ -1,4 +1,5 @@
 import Room from "../models/room";
+import Booking from "../models/booking";
 import ErrorHandler from "../utils/errorHandler";
 import asyncHandler from "../middlewares/asyncHandler";
 import APIFeatures from "../utils/APIFeatures";
@@ -137,5 +138,21 @@ export const createRoomReview = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
+  });
+});
+
+//@desc check review availability
+//@route Get/api/reviews/check_review
+export const checkReviewAvailability = asyncHandler(async (req, res) => {
+  const { roomId } = req.query;
+
+  const booking = await Booking.find({ user: req.user._id, room: roomId });
+
+  let isReviewAvailable = false;
+  if (booking.length > 0) isReviewAvailable = true;
+
+  res.status(200).json({
+    success: true,
+    isReviewAvailable,
   });
 });

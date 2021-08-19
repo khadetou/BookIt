@@ -5,6 +5,8 @@ import {
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
   NEW_REVIEW_RESET,
+  REVIEW_AVAILABILITY_SUCCESS,
+  REVIEW_AVAILABILITY_FAIL,
   CLEAR_ERROR,
 } from "../types/type";
 
@@ -14,6 +16,7 @@ const initialState = {
   loading: true,
   error: null,
   review: null,
+  reviewAvailable: null,
 };
 
 export const rooms = (state = initialState, action) => {
@@ -61,12 +64,21 @@ export const roomDetails = (state = initialState, action) => {
         loading: false,
       };
 
+    case REVIEW_AVAILABILITY_SUCCESS:
+      return {
+        ...state,
+        reviewAvailable: payload,
+        loading: false,
+      };
+
     case NEW_REVIEW_RESET:
       return {
         ...state,
         review: false,
         loading: false,
       };
+
+    case REVIEW_AVAILABILITY_FAIL:
     case CLEAR_ERROR:
     case NEW_REVIEW_FAIL:
     case ROOMS_ERROR: {

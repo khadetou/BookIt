@@ -3,12 +3,13 @@ import absoluteUrl from "next-absolute-url";
 import {
   GET_ALL_ROOMS,
   GET_ROOM_DETAILS,
-  ROOMS_ERRORNEW_REVIEW_SUCCESS,
+  ROOMS_ERROR,
   NEW_REVIEW_FAIL,
-  NEW_REVIEW_RESET,
   SET_LOADING,
   NEW_REVIEW_SUCCESS,
   CLEAR_ERROR,
+  REVIEW_AVAILABILITY_SUCCESS,
+  REVIEW_AVAILABILITY_FAIL,
 } from "../types/type";
 
 export const getAllRooms =
@@ -69,6 +70,26 @@ export const newReview = (reviewData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_REVIEW_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
+//CHECK REVIEW
+export const checkReview = (roomId) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    const { data } = await axios.get(
+      `/api/reviews/check_review?roomId=${roomId}`
+    );
+
+    dispatch({
+      type: REVIEW_AVAILABILITY_SUCCESS,
+      payload: data.isReviewAvailable,
+    });
+  } catch (error) {
+    dispatch({
+      type: REVIEW_AVAILABILITY_FAIL,
       payload: error.message,
     });
   }
