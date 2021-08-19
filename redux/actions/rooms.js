@@ -8,6 +8,7 @@ import {
   NEW_REVIEW_RESET,
   SET_LOADING,
   NEW_REVIEW_SUCCESS,
+  CLEAR_ERROR,
 } from "../types/type";
 
 export const getAllRooms =
@@ -50,16 +51,16 @@ export const getRoomDetails = (req, id) => async (dispatch) => {
   }
 };
 
-//Get Room Details
+//put new reviews
 export const newReview = (reviewData) => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
     const config = {
       headers: {
-        "Content-Type": "applicatio/json",
+        "Content-Type": "application/json",
       },
     };
-    const { data } = await axios.put("/api/rooms/", reviewData, config);
+    const { data } = await axios.put("/api/reviews", reviewData, config);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -68,7 +69,14 @@ export const newReview = (reviewData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_REVIEW_FAIL,
-      payload: error.response.data.message,
+      payload: error.message,
     });
   }
+};
+
+export const clearError = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_ERROR,
+    payload: null,
+  });
 };

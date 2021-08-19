@@ -104,6 +104,7 @@ export const deleteRoom = asyncHandler(async (req, res) => {
 //@route Put/api/review
 export const createRoomReview = asyncHandler(async (req, res) => {
   const { rating, comment, roomId } = req.body;
+
   const review = {
     user: req.user._id,
     name: req.user.name,
@@ -112,10 +113,11 @@ export const createRoomReview = asyncHandler(async (req, res) => {
   };
 
   const room = await Room.findById(roomId);
+  console.log(req.user._id);
   const isReviewed = room.reviews.find(
-    (r) => r.user.toString() === req.user.id.toString()
+    (r) => r.user.toString() === req.user._id.toString()
   );
-
+  console.log(isReviewed);
   if (isReviewed) {
     room.reviews.forEach((review) => {
       if (review.user.toString() === req.user._id.toString()) {

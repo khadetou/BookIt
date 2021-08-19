@@ -12,7 +12,7 @@ import { checkBooking, getBookedDates } from "../../redux/actions/booking";
 import { CHECK_BOOKING_RESET } from "../../redux/types/type";
 import getStripe from "../../utils/getStripe";
 import { toast } from "react-toastify";
-import { stringify } from "flatted";
+import NewReview from "../../components/NewReview";
 
 export default function RoomDetails() {
   const dispatch = useDispatch();
@@ -288,7 +288,7 @@ export default function RoomDetails() {
           </div>
         </div>
       </div>
-
+      <NewReview />
       <div className="reviews w-75">
         <h3>Reviews:</h3>
         <hr />
