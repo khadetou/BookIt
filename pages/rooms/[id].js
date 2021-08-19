@@ -13,6 +13,7 @@ import { CHECK_BOOKING_RESET } from "../../redux/types/type";
 import getStripe from "../../utils/getStripe";
 import { toast } from "react-toastify";
 import NewReview from "../../components/NewReview";
+import ListReviews from "../../components/ListReviews";
 
 export default function RoomDetails() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function RoomDetails() {
       pricePerNight,
       ratings,
       roomCleaning,
+      reviews,
     },
   } = useSelector((state) => state.room);
 
@@ -289,29 +291,13 @@ export default function RoomDetails() {
         </div>
       </div>
       <NewReview />
-      <div className="reviews w-75">
-        <h3>Reviews:</h3>
-        <hr />
-        <div className="review-card my-3">
-          <div className="rating-outer">
-            <div className="rating-inner"></div>
-          </div>
-          <p className="review_user">by John</p>
-          <p className="review_comment">Good Quality</p>
-
-          <hr />
-        </div>
-
-        <div className="review-card my-3">
-          <div className="rating-outer">
-            <div className="rating-inner"></div>
-          </div>
-          <p className="review_user">by John</p>
-          <p className="review_comment">Good Quality</p>
-
-          <hr />
-        </div>
-      </div>
+      {reviews && reviews.length > 0 ? (
+        <ListReviews reviews={reviews} />
+      ) : (
+        <p>
+          <b>No reviews on this room</b>{" "}
+        </p>
+      )}
     </div>
   );
 }
