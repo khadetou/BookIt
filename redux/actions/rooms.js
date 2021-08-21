@@ -6,11 +6,14 @@ import {
   ROOMS_ERROR,
   NEW_REVIEW_FAIL,
   SET_LOADING,
+  SET_LOADING_NEW,
   NEW_REVIEW_SUCCESS,
   CLEAR_ERROR,
   REVIEW_AVAILABILITY_SUCCESS,
   REVIEW_AVAILABILITY_FAIL,
   ADMIN_ROOM_SUCCESS,
+  CREATE_ROOM_SUCCESS,
+  CREATE_ROOM_FAIL,
   ADMIN_ROOM_FAIL,
 } from "../types/type";
 
@@ -73,6 +76,30 @@ export const newReview = (reviewData) => async (dispatch) => {
     dispatch({
       type: NEW_REVIEW_FAIL,
       payload: error.message,
+    });
+  }
+};
+
+//CREATE NEW ROOM
+export const newRoom = (roomData) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING_NEW });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post("/api/rooms", roomData, config);
+
+    dispatch({
+      type: CREATE_ROOM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CREATE_ROOM_FAIL,
+      payload: error.response.data.message,
     });
   }
 };

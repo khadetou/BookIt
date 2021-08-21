@@ -1,13 +1,13 @@
-import nc from 'next-connect'
-import connectDB from '../../../config/dbConnect'
-import { allRooms, newRoom } from '../../../controllers/roomController'
-import onError from '../../../middlewares/errors'
+import nc from "next-connect";
+import connectDB from "../../../config/dbConnect";
+import { allRooms, newRoom } from "../../../controllers/roomController";
+import onError from "../../../middlewares/errors";
+import { authorizeRoles, isAuthenticated } from "../../../middlewares/auth";
+const handler = nc({ onError });
 
-const handler = nc({ onError })
+connectDB();
 
-connectDB()
+handler.get(allRooms);
+handler.use(isAuthenticated, authorizeRoles("admin")).post(newRoom);
 
-handler.get(allRooms)
-handler.post(newRoom)
-
-export default handler
+export default handler;

@@ -9,7 +9,10 @@ import {
   REVIEW_AVAILABILITY_FAIL,
   ADMIN_ROOM_SUCCESS,
   ADMIN_ROOM_FAIL,
+  CREATE_ROOM_SUCCESS,
+  CREATE_ROOM_FAIL,
   CLEAR_ERROR,
+  SET_LOADING_NEW,
 } from "../types/type";
 
 const initialState = {
@@ -49,6 +52,40 @@ export const rooms = (state = initialState, action) => {
         loading: false,
       };
 
+    default:
+      return {
+        ...state,
+      };
+  }
+};
+
+//Create room
+export const newRoom = (
+  state = { room: {}, loading: null, error: null },
+  action
+) => {
+  const { payload, type } = action;
+  switch (type) {
+    case CREATE_ROOM_SUCCESS:
+      return {
+        ...state,
+        success: payload.success,
+        room: payload.room,
+        loading: false,
+      };
+
+    case CREATE_ROOM_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
+
+    case SET_LOADING_NEW:
+      return {
+        ...state,
+        loading: true,
+      };
     default:
       return {
         ...state,
