@@ -156,3 +156,14 @@ export const checkReviewAvailability = asyncHandler(async (req, res) => {
     isReviewAvailable,
   });
 });
+
+//@desc Get All rooms
+//@route Get/api/admin/rooms
+export const allAdminRooms = asyncHandler(async (req, res) => {
+  const rooms = await Room.find();
+
+  res.status(200).json({
+    success: true,
+    rooms,
+  });
+});
