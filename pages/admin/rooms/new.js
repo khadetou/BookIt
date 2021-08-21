@@ -95,12 +95,15 @@ export default function CreateNewRoom() {
                 min="0"
                 step=".01"
                 id="price_field"
-                name="price"
+                name="pricePerNight"
                 className="form-control"
                 checked={values.pricePerNight}
                 placeholder="$10"
                 required
-                onChange={(e) => onChange(e)}
+                onChange={(e) => {
+                  onChange(e);
+                  console.log(values.pricePerNight);
+                }}
               />
             </div>
             <div className="form-group">
