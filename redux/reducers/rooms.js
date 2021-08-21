@@ -7,6 +7,8 @@ import {
   NEW_REVIEW_RESET,
   REVIEW_AVAILABILITY_SUCCESS,
   REVIEW_AVAILABILITY_FAIL,
+  ADMIN_ROOM_SUCCESS,
+  ADMIN_ROOM_FAIL,
   CLEAR_ERROR,
 } from "../types/type";
 
@@ -32,13 +34,20 @@ export const rooms = (state = initialState, action) => {
         loading: false,
       };
 
-    case ROOMS_ERROR: {
+    case ADMIN_ROOM_SUCCESS:
+      return {
+        ...state,
+        rooms: payload.rooms,
+        loading: false,
+      };
+
+    case ADMIN_ROOM_FAIL:
+    case ROOMS_ERROR:
       return {
         ...state,
         error: payload,
         loading: false,
       };
-    }
 
     default:
       return {

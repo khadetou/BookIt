@@ -10,6 +10,8 @@ import {
   CLEAR_ERROR,
   REVIEW_AVAILABILITY_SUCCESS,
   REVIEW_AVAILABILITY_FAIL,
+  ADMIN_ROOM_SUCCESS,
+  ADMIN_ROOM_FAIL,
 } from "../types/type";
 
 export const getAllRooms =
@@ -100,4 +102,22 @@ export const clearError = () => (dispatch) => {
     type: CLEAR_ERROR,
     payload: null,
   });
+};
+
+export const getAdminRooms = () => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let link = `/api/admin/rooms`;
+    const { data } = await axios.get(link);
+
+    dispatch({
+      type: ADMIN_ROOM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ROOM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };

@@ -62,6 +62,14 @@ const Header = () => {
                 <Link href="/bookings/me">
                   <a className="dropdown-item">My Bookings</a>
                 </Link>
+                {user.avatar.role === "admin" && (
+                  <>
+                    <Link href="/admin/rooms">
+                      <a className="dropdown-item">Rooms</a>
+                    </Link>
+                    <hr />
+                  </>
+                )}
                 <Link href="/me/update">
                   <a className="dropdown-item">Profile</a>
                 </Link>
