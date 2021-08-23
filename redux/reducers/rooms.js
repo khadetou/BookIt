@@ -12,6 +12,9 @@ import {
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAIL,
   CLEAR_ERROR,
+  UPDATE_ROOM_SUCCESS,
+  UPDATE_ROOM_RESET,
+  UPDATE_ROOM_FAIL,
   SET_LOADING_NEW,
 } from "../types/type";
 
@@ -75,6 +78,39 @@ export const newRoom = (
       };
 
     case CREATE_ROOM_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
+
+    case SET_LOADING_NEW:
+      return {
+        ...state,
+        loading: true,
+      };
+    default:
+      return {
+        ...state,
+      };
+  }
+};
+
+//Create room
+export const updateRoom = (
+  state = { isUpdated: null, loading: null, error: null },
+  action
+) => {
+  const { payload, type } = action;
+  switch (type) {
+    case UPDATE_ROOM_SUCCESS:
+      return {
+        ...state,
+        isUpdated: payload.room,
+        loading: false,
+      };
+
+    case UPDATE_ROOM_FAIL:
       return {
         ...state,
         error: payload,

@@ -15,6 +15,9 @@ import {
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAIL,
   ADMIN_ROOM_FAIL,
+  UPDATE_ROOM_SUCCESS,
+  UPDATE_ROOM_RESET,
+  UPDATE_ROOM_FAIL,
 } from "../types/type";
 
 export const getAllRooms =
@@ -99,6 +102,30 @@ export const newRoom = (roomData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_ROOM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Update  ROOM
+export const updateRoom = (roomData, id) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING_NEW });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.put(`/api/rooms/${id}`, roomData, config);
+
+    dispatch({
+      type: UPDATE_ROOM_SUCCESS,
+      payload: data.sucess,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ROOM_FAIL,
       payload: error.response.data.message,
     });
   }
