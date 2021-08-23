@@ -67,8 +67,6 @@ export const newRoom = asyncHandler(async (req, res) => {
     });
   }
 
-  console.log(req.user);
-
   req.body.images = imagesLinks;
   req.body.user = req.user._id;
 
@@ -88,14 +86,17 @@ export const updateRoom = asyncHandler(async (req, res) => {
       error: "No room found with this id",
     });
   }
+
   if (req.body.images) {
     //Delete images associted with the room
     for (let i = 0; i < room.images.length; i++) {
       await cloudinary.v2.uploader.destroy(room.images[i].public_id);
     }
 
-    for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
+    let imagesLinks = [];
+
+    for (let i = 0; i < req.body.images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(req.body.images[i], {
         folder: "bookit/rooms",
       });
 
@@ -115,7 +116,7 @@ export const updateRoom = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({
-    success: true,
+    isUpdated: true,
     room,
   });
 });
@@ -154,11 +155,11 @@ export const createRoomReview = asyncHandler(async (req, res) => {
   };
 
   const room = await Room.findById(roomId);
-  console.log(req.user._id);
+
   const isReviewed = room.reviews.find(
     (r) => r.user.toString() === req.user._id.toString()
   );
-  console.log(isReviewed);
+
   if (isReviewed) {
     room.reviews.forEach((review) => {
       if (review.user.toString() === req.user._id.toString()) {

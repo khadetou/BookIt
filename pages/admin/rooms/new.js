@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { newRoom } from "../../../redux/actions/rooms";
 import ButtonLoader from "../../../components/ButtonLoader";
+import { getSession } from "next-auth/client";
 
 export default function CreateNewRoom() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { loading, error, success } = useSelector((state) => state.newRoom);
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -16,7 +18,7 @@ export default function CreateNewRoom() {
     if (success) {
       router.push("/admin/rooms");
     }
-  }, [dispatch, error, success]);
+  }, [error, success]);
 
   const [values, setValues] = useState({
     name: "",
@@ -63,6 +65,10 @@ export default function CreateNewRoom() {
       images,
     };
 
+    if (images.length === 0) {
+      return toast.error("Please upload images");
+    }
+
     dispatch(newRoom(roomData));
   };
 
@@ -102,7 +108,6 @@ export default function CreateNewRoom() {
                 required
                 onChange={(e) => {
                   onChange(e);
-                  console.log(values.pricePerNight);
                 }}
               />
             </div>
@@ -313,4 +318,20 @@ export default function CreateNewRoom() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (!session || session.user.avatar.role !== "admin") {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

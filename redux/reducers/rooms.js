@@ -106,7 +106,7 @@ export const updateRoom = (
     case UPDATE_ROOM_SUCCESS:
       return {
         ...state,
-        isUpdated: payload.room,
+        isUpdated: payload,
         loading: false,
       };
 
@@ -114,6 +114,13 @@ export const updateRoom = (
       return {
         ...state,
         error: payload,
+        loading: false,
+      };
+
+    case UPDATE_ROOM_RESET:
+      return {
+        ...state,
+        isUpdated: false,
         loading: false,
       };
 

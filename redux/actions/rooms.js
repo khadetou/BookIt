@@ -46,7 +46,13 @@ export const getAllRooms =
 export const getRoomDetails = (req, id) => async (dispatch) => {
   try {
     const { origin } = absoluteUrl(req);
-    const { data } = await axios.get(`${origin}/api/rooms/${id}`);
+    let url;
+    if (req) {
+      url = `${origin}/api/rooms/${id}`;
+    } else {
+      url = `/api/rooms/${id}`;
+    }
+    const { data } = await axios.get(url);
 
     dispatch({
       type: GET_ROOM_DETAILS,
@@ -121,9 +127,10 @@ export const updateRoom = (roomData, id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_ROOM_SUCCESS,
-      payload: data.sucess,
+      payload: data.isUpdated,
     });
   } catch (error) {
+    console.log({ error });
     dispatch({
       type: UPDATE_ROOM_FAIL,
       payload: error.response.data.message,
