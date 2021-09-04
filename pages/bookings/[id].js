@@ -92,14 +92,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
     async ({ req, params }) => {
       const session = await getSession({ req });
 
-      if (!session || session.user.role !== "admin") {
-        return {
-          redirect: {
-            destination: "/login",
-            permanent: false,
-          },
-        };
-      }
+      // if (!session || session.user.role !== "admin") {
+      //   return {
+      //     redirect: {
+      //       destination: "/login",
+      //       permanent: false,
+      //     },
+      //   };
+      // }
 
       await store.dispatch(
         getBookingDetails(req.headers.cookie, req, params.id)

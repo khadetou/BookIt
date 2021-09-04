@@ -40,17 +40,19 @@ const Header = () => {
           {user ? (
             <div className="ml-4 dropdown d-inline">
               <a
-                className="btn dropdown-toggle ml-4"
+                className="btn dropdown-toggle ml-4 w-100"
                 id="dropdownMenuButton"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
                 <figure className="avatar avatar-nav">
-                  <img
+                  <Image
                     src={user.avatar && user.avatar.url}
                     alt={user && user.name}
                     className="rounded-circle"
+                    width={100}
+                    height={100}
                   />
                 </figure>
                 <span>{user && user.name}</span>
