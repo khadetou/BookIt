@@ -20,6 +20,8 @@ import {
   DELETE_ROOM_SUCCESS,
   RESET_DELETED_ROOM,
   RESET_CREATE_ROOM,
+  GET_ALL_REVIEWS_SUCCESS,
+  GET_ALL_REVIEWS_FAIL,
 } from "../types/type";
 
 const initialState = {
@@ -225,6 +227,47 @@ export const deleteRoom = (state = deleteInitialState, action) => {
         success: false,
         message: null,
       };
+
+    default:
+      return {
+        ...state,
+      };
+  }
+};
+
+const initialReviewState = {
+  loading: false,
+  success: false,
+  reviews: null,
+  error: null,
+};
+
+//Delete a room
+export const getReviews = (state = initialReviewState, action) => {
+  const { payload, type } = action;
+  switch (type) {
+    case GET_ALL_REVIEWS_SUCCESS:
+      return {
+        ...state,
+        success: payload.success,
+        reviews: payload.reviews,
+        loading: false,
+      };
+
+    case GET_ALL_REVIEWS_FAIL: {
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
+    }
+
+    // case RESET_DELETED_ROOM:
+    //   return {
+    //     ...state,
+    //     success: false,
+    //     message: null,
+    //   };
 
     default:
       return {

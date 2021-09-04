@@ -62,12 +62,6 @@ export default function AdminUsers() {
           role: user.role,
           actions: (
             <>
-              <Link href={`/admin/users/${user._id}`}>
-                <a className="btn btn-primary mr-2">
-                  <i className="fa fa-pencil"></i>
-                </a>
-              </Link>
-
               <button className="btn btn-danger">
                 <i className="fa fa-trash"></i>
               </button>

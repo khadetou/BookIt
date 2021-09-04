@@ -21,6 +21,8 @@ import {
   UPDATE_ROOM_FAIL,
   DELETE_ROOM_SUCCESS,
   DELETE_ROOM_FAIL,
+  GET_ALL_REVIEWS_SUCCESS,
+  GET_ALL_REVIEWS_FAIL,
 } from "../types/type";
 
 export const getAllRooms =
@@ -200,6 +202,25 @@ export const getAdminRooms = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN_ROOM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getReviews = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let link = `/api/reviews/?id=${id}`;
+    const { data } = await axios.get(link);
+
+    dispatch({
+      type: GET_ALL_REVIEWS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    console.log({ error });
+    dispatch({
+      type: GET_ALL_REVIEWS_FAIL,
       payload: error.response.data.message,
     });
   }

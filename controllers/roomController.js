@@ -208,3 +208,14 @@ export const allAdminRooms = asyncHandler(async (req, res) => {
     rooms,
   });
 });
+
+//@desc Get All rooms reviews
+//@route Get/api/reviews
+export const allRoomsReviews = asyncHandler(async (req, res) => {
+  const rooms = await Room.findById(req.query.id);
+  let reviews = rooms.reviews;
+  res.status(200).json({
+    success: true,
+    reviews,
+  });
+});
