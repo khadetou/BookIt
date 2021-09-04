@@ -10,7 +10,6 @@ import { loadUser } from "../redux/actions/user";
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("object");
     dispatch(loadUser());
   });
   return (
