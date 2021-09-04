@@ -18,7 +18,7 @@ module.exports = {
       "sk_test_51JP61kKdYfcVMwHwADAgEIbKKqdzGmju6tkkUqEzZXtO9QT7thcDa516q9qGNzp3zkwqN24yIFWSoSDYpLLKKaCx00F4tXvTR6",
     STRIPE_WEBHOOK_SECRET: "whsec_8MMMJxZICbU5z7WlOw9R5cacdF0Xut6w",
 
-    NEXTAUTH_URL = "https://senbookit.vercel.app"
+    NEXTAUTH_URL: "https://senbookit.vercel.app",
     // STRIPE_WEBHOOK_SECRET: "whsec_o4x6X8hL9uov6Zm3V7BYBreO2Tr0a8KC" old one,
   },
   images: {
