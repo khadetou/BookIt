@@ -110,8 +110,8 @@ export default function Register() {
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="image"
-                      with={60}
-                      heigth={55}
+                      width={60}
+                      height={55}
                     />
                   </figure>
                 </div>

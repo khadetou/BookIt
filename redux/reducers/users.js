@@ -83,7 +83,6 @@ export const auth = (state = initialState, action) => {
     case RESET_PASS_FAIL:
     case FORGOT_PASS_FAIL:
     case UPDATE_PROFILE_FAIL:
-    case LOAD_USER_FAIL:
     case REGISTER_USER_FAIL: {
       return {
         ...state,
@@ -91,6 +90,12 @@ export const auth = (state = initialState, action) => {
         loading: false,
       };
     }
+
+    case LOAD_USER_FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
 
     case SET_LOADING: {
       return {
