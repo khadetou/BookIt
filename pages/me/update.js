@@ -7,6 +7,7 @@ import { updateProfile } from "../../redux/actions/user";
 import { UPDATE_PROFILE_RESET } from "../../redux/types/type";
 import ButtonLoader from "../../components/ButtonLoader";
 import Loader from "../../components/Loader";
+import Image from "next/image";
 
 export default function UpdateProfile() {
   const dispatch = useDispatch();
@@ -132,10 +133,12 @@ export default function UpdateProfile() {
                   <div className="d-flex align-items-center">
                     <div>
                       <figure className="avatar mr-3 item-rtl">
-                        <img
+                        <Image
                           src={avatarPreview}
                           className="rounded-circle"
                           alt="image"
+                          height={52}
+                          width={55}
                         />
                       </figure>
                     </div>

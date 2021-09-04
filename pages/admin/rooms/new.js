@@ -6,6 +6,7 @@ import { newRoom } from "../../../redux/actions/rooms";
 import ButtonLoader from "../../../components/ButtonLoader";
 import { getSession } from "next-auth/client";
 import { RESET_CREATE_ROOM } from "../../../redux/types/type";
+import Image from "next/image";
 
 export default function CreateNewRoom() {
   const dispatch = useDispatch();
@@ -298,13 +299,13 @@ export default function CreateNewRoom() {
                 </label>
               </div>
               {imagesPreview.map((image, idx) => (
-                <img
+                <Image
                   key={idx}
                   src={image}
                   alt="Images Preview"
                   className="mt-3 mr-2"
-                  width="55"
-                  height="52"
+                  width={55}
+                  height={52}
                 />
               ))}
             </div>
