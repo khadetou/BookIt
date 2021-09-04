@@ -104,10 +104,12 @@ export default function Register() {
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
-                    <img
+                    <Image
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="image"
+                      with={60}
+                      heigth={55}
                     />
                   </figure>
                 </div>
