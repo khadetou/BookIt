@@ -12,6 +12,7 @@ const Header = () => {
   useEffect(() => {
     //Check if the user is set in order to dispatch it
     //otherwise we'll get some odd behavior
+
     if (!user) {
       dispatch(loadUser());
     }
