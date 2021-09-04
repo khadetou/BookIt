@@ -16,6 +16,10 @@ import {
   UPDATE_ROOM_RESET,
   UPDATE_ROOM_FAIL,
   SET_LOADING_NEW,
+  DELETE_ROOM_FAIL,
+  DELETE_ROOM_SUCCESS,
+  RESET_DELETED_ROOM,
+  RESET_CREATE_ROOM,
 } from "../types/type";
 
 const initialState = {
@@ -76,7 +80,11 @@ export const newRoom = (
         room: payload.room,
         loading: false,
       };
-
+    case RESET_CREATE_ROOM:
+      return {
+        ...state,
+        success: false,
+      };
     case CREATE_ROOM_FAIL:
       return {
         ...state,
@@ -177,6 +185,46 @@ export const roomDetails = (state = initialState, action) => {
         loading: false,
       };
     }
+
+    default:
+      return {
+        ...state,
+      };
+  }
+};
+
+const deleteInitialState = {
+  loading: null,
+  success: false,
+  message: null,
+  error: null,
+};
+//Delete a room
+export const deleteRoom = (state = deleteInitialState, action) => {
+  const { payload, type } = action;
+  switch (type) {
+    case DELETE_ROOM_SUCCESS:
+      return {
+        ...state,
+        success: payload.success,
+        message: payload.message,
+        loading: false,
+      };
+
+    case DELETE_ROOM_FAIL: {
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
+    }
+
+    case RESET_DELETED_ROOM:
+      return {
+        ...state,
+        success: false,
+        message: null,
+      };
 
     default:
       return {

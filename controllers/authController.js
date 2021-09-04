@@ -58,6 +58,18 @@ export const getUser = asyncHandler(async (req, res) => {
   });
 });
 
+//@desc get All user
+//@route get/api/admin/users
+
+export const getAdminUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
 //@desc Update user profile
 //@route put/api/me
 

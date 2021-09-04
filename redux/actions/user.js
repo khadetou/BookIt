@@ -12,6 +12,8 @@ import {
   FORGOT_PASS_FAIL,
   RESET_PASS_SUCCESS,
   RESET_PASS_FAIL,
+  GET_ALL_USERS_FAIL,
+  GET_ALL_USERS,
 } from "../types/type";
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -52,6 +54,23 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+//Get all users by the admin
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    const { data } = await axios.get("/api/admin/users");
+
+    dispatch({
+      type: GET_ALL_USERS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_USERS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 //Update profile
 export const updateProfile = (userData) => async (dispatch) => {
   try {

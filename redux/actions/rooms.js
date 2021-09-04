@@ -1,5 +1,6 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
+
 import {
   GET_ALL_ROOMS,
   GET_ROOM_DETAILS,
@@ -18,6 +19,8 @@ import {
   UPDATE_ROOM_SUCCESS,
   UPDATE_ROOM_RESET,
   UPDATE_ROOM_FAIL,
+  DELETE_ROOM_SUCCESS,
+  DELETE_ROOM_FAIL,
 } from "../types/type";
 
 export const getAllRooms =
@@ -133,6 +136,25 @@ export const updateRoom = (roomData, id) => async (dispatch) => {
     console.log({ error });
     dispatch({
       type: UPDATE_ROOM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+//Delete ROOM
+export const deleteRoom = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+
+    const { data } = await axios.delete(`/api/rooms/${id}`);
+
+    console.log(data);
+    dispatch({
+      type: DELETE_ROOM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_ROOM_FAIL,
       payload: error.response.data.message,
     });
   }

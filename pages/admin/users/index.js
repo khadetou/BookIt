@@ -5,47 +5,27 @@ import { useEffect } from "react";
 import Loader from "../../../components/Loader";
 import { MDBDataTable } from "mdbreact";
 import { toast } from "react-toastify";
-import { getAdminRooms, deleteRoom } from "../../../redux/actions/rooms";
+import { getAllUsers, loadUser } from "../../../redux/actions/user";
 import { getSession } from "next-auth/client";
-import { RESET_DELETED_ROOM } from "../../../redux/types/type";
 
-export default function AdminRooms() {
+export default function AdminUsers() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { loading, error, rooms } = useSelector((state) => state.allRooms);
-  const {
-    loading: dltLoading,
-    error: dltError,
-    success,
-    message,
-  } = useSelector((state) => state.deleteRoom);
+  const { loading, error, users, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (error) {
       toast.error(error);
     }
-    if (dltError) {
-      toast.error(dltError);
-    }
-    if (success) {
-      toast.success(message);
-      dispatch({ type: RESET_DELETED_ROOM });
-    }
-    dispatch(getAdminRooms());
-  }, [dispatch, success]);
+    dispatch(getAllUsers());
+  }, [dispatch]);
 
-  const deleteRooms = (id) => {
-    if (window.confirm("Are you sure you want to delete this room!")) {
-      dispatch(deleteRoom(id));
-    }
-  };
-
-  const setRooms = () => {
+  const setUsers = () => {
     const data = {
       columns: [
         {
-          label: "Room ID",
+          label: "User ID",
           field: "id",
           sort: "asc",
         },
@@ -55,12 +35,12 @@ export default function AdminRooms() {
           sort: "asc",
         },
         {
-          label: "Price / Night",
-          field: "price",
+          label: "Email",
+          field: "email",
           sort: "asc",
         },
         {
-          label: "Category",
+          label: "Role",
           field: "category",
           sort: "asc",
         },
@@ -73,25 +53,22 @@ export default function AdminRooms() {
       rows: [],
     };
 
-    rooms &&
-      rooms.forEach((room) => {
+    users &&
+      users.forEach((user) => {
         data.rows.push({
-          id: room._id,
-          name: room.name,
-          price: `$${room.pricePerNight}`,
-          category: room.category,
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
           actions: (
             <>
-              <Link href={`/admin/rooms/${room._id}`}>
+              <Link href={`/admin/users/${user._id}`}>
                 <a className="btn btn-primary mr-2">
                   <i className="fa fa-pencil"></i>
                 </a>
               </Link>
 
-              <button
-                className="btn btn-danger"
-                onClick={() => deleteRooms(room._id)}
-              >
+              <button className="btn btn-danger">
                 <i className="fa fa-trash"></i>
               </button>
             </>
@@ -107,17 +84,10 @@ export default function AdminRooms() {
         <Loader />
       ) : (
         <>
-          <h1 className="my-5">
-            {`${rooms && rooms.length} Rooms`}{" "}
-            <Link href="/admin/rooms/new">
-              <a className="mt-0 btn text-white float-right new-room-btn ">
-                Create Room
-              </a>
-            </Link>
-          </h1>
+          <h1 className="my-5">{`${users && users.length} Rooms`}</h1>
 
           <MDBDataTable
-            data={setRooms()}
+            data={setUsers()}
             className="px-3"
             bordered
             striped

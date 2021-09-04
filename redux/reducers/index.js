@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { rooms, roomDetails, newRoom, updateRoom } from "./rooms";
+import { rooms, roomDetails, newRoom, updateRoom, deleteRoom } from "./rooms";
 import { auth } from "./users";
 import { booking } from "./booking";
 
@@ -10,4 +10,5 @@ export default combineReducers({
   booking,
   newRoom,
   updateRoom,
+  deleteRoom,
 });

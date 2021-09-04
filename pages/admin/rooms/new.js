@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { newRoom } from "../../../redux/actions/rooms";
 import ButtonLoader from "../../../components/ButtonLoader";
 import { getSession } from "next-auth/client";
+import { RESET_CREATE_ROOM } from "../../../redux/types/type";
 
 export default function CreateNewRoom() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function CreateNewRoom() {
     }
     if (success) {
       router.push("/admin/rooms");
+      dispatch({ type: RESET_CREATE_ROOM });
     }
   }, [error, success]);
 

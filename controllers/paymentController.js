@@ -7,6 +7,7 @@ import asyncHandler from "../middlewares/asyncHandler";
 
 //@desc generate stripe checkout session
 //@route Get/api/checkout_session/:roomId
+//I used webhook here
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
