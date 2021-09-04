@@ -51,7 +51,7 @@ const Homepage = () => {
                 name={room.name}
                 price={room.pricePerNight}
                 id={room._id}
-                rating={room.rating}
+                rating={room.ratings}
                 reviews={room.numOfReviews}
               />
             ))

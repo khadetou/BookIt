@@ -11,7 +11,7 @@ export default function RoomReviews() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [roomId, setRoomId] = useState("");
-  console.log(roomId);
+
   const { loading, error, reviews } = useSelector((state) => state.getReviews);
 
   useEffect(() => {
