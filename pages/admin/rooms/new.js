@@ -61,6 +61,7 @@ export default function CreateNewRoom() {
       reader.readAsDataURL(file);
     });
   };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const roomData = {
