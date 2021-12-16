@@ -2,9 +2,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { session } from "next-auth/client";
 import { registerUser } from "../redux/actions/user";
 import ButtonLoader from "../components/ButtonLoader";
 import Image from "next/image";
+import { CLEAR_ERROR } from "../redux/types/type";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -29,11 +31,16 @@ export default function Register() {
 
     if (error) {
       toast.error(error);
+      dispatch({ type: CLEAR_ERROR });
     }
   }, [success, error, loading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (!avatar) {
+      toast.error("Please select upload avatar");
+      return;
+    }
     const userData = {
       name,
       email,

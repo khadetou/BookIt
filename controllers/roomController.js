@@ -61,6 +61,8 @@ export const newRoom = asyncHandler(async (req, res) => {
       folder: "bookit/rooms",
     });
 
+    console.log(result);
+
     imagesLinks.push({
       public_id: result.public_id,
       url: result.secure_url,

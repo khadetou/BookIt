@@ -82,7 +82,7 @@ export default Login;
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-
+  console.log(session);
   if (session) {
     return {
       redirect: {

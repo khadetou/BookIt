@@ -13,6 +13,7 @@ import {
   RESET_PASS_FAIL,
   GET_ALL_USERS,
   GET_ALL_USERS_FAIL,
+  CLEAR_ERROR,
 } from "../types/type";
 
 const initialState = {
@@ -103,6 +104,11 @@ export const auth = (state = initialState, action) => {
         loading: true,
       };
     }
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return {
         ...state,

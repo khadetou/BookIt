@@ -18,11 +18,21 @@ cloudinary.config({
 //@route post/api/auth/register
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "bookit/avatars",
-    width: "150",
-    crop: "scale",
-  });
+  console.log(req.body.avatar);
+  const result = await cloudinary.v2.uploader.upload(
+    req.body.avatar,
+    {
+      folder: "bookit/avatars",
+      width: "150",
+      crop: "scale",
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      return result;
+    }
+  );
 
   let { name, email, password } = req.body;
 
