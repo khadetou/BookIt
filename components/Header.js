@@ -7,7 +7,7 @@ import { signOut } from "next-auth/client";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     //Check if the user is set in order to dispatch it
@@ -38,7 +38,7 @@ const Header = () => {
         </div>
 
         <div className="col-3 mt-3 mt-md-0 text-center">
-          {user ? (
+          {user && isAuthenticated ? (
             <div className="ml-4 dropdown d-inline">
               <a
                 className="btn dropdown-toggle ml-4 w-100"
