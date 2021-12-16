@@ -22,6 +22,6 @@ module.exports = {
     // STRIPE_WEBHOOK_SECRET: "whsec_o4x6X8hL9uov6Zm3V7BYBreO2Tr0a8KC" old one,
   },
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "images.unsplash.com"],
   },
 };
